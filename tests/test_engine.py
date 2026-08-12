@@ -1,4 +1,4 @@
-"""사내추첨 구현스펙 AC-01~AC-08, AC-10 단위 테스트."""
+"""입력, 이동유형, 재고 검증 규칙 단위 테스트."""
 
 import sys
 import unittest
@@ -8,70 +8,52 @@ from pathlib import Path
 SRC_DIR = Path(__file__).resolve().parents[1] / "src"
 sys.path.insert(0, str(SRC_DIR))
 
-from engine import LotteryError, draw_winners, normalize_participants
+import engine
 
 
-class NormalizeParticipantsTests(unittest.TestCase):
-    def test_ac01_trims_and_removes_blank_lines(self):
-        participants, duplicate_count = normalize_participants(
-            "  김한화  \n\n이태양\n   "
+class OutboundInputTests(unittest.TestCase):
+    def test_ac01_trims_and_accepts_valid_input(self):
+        result = engine.validate_outbound_input(
+            " GI-001 ", " MAT-01 ", " 7311 ", " 1M01 ", " IM24-001 ", 3, " H0001 "
         )
 
-        self.assertEqual(["김한화", "이태양"], participants)
-        self.assertEqual(0, duplicate_count)
+        self.assertEqual("GI-001", result["request_id"])
+        self.assertEqual("MAT-01", result["material_code"])
+        self.assertEqual("H0001", result["user_id"])
+        self.assertEqual(3, result["quantity"])
 
-    def test_ac02_removes_duplicates_in_order(self):
-        participants, duplicate_count = normalize_participants(
-            "김한화\n이태양\n김한화\n박도전\n이태양"
-        )
+    def test_ac02_rejects_blank_required_value(self):
+        with self.assertRaisesRegex(engine.IpsError, "출고 요청 번호.*필수"):
+            engine.validate_outbound_input(
+                " ", "MAT-01", "7311", "1M01", "IM24-001", 3, "H0001"
+            )
 
-        self.assertEqual(["김한화", "이태양", "박도전"], participants)
-        self.assertEqual(2, duplicate_count)
-
-    def test_ac03_keeps_case_distinct(self):
-        participants, duplicate_count = normalize_participants("Kim\nkim\nKim")
-
-        self.assertEqual(["Kim", "kim"], participants)
-        self.assertEqual(1, duplicate_count)
+    def test_ac03_rejects_non_positive_quantity(self):
+        with self.assertRaisesRegex(engine.IpsError, "출고 수량은 1 이상"):
+            engine.validate_outbound_input(
+                "GI-001", "MAT-01", "7311", "1M01", "IM24-001", 0, "H0001"
+            )
 
 
-class DrawWinnersTests(unittest.TestCase):
-    def test_ac04_rejects_empty_participants(self):
-        with self.assertRaisesRegex(LotteryError, "참여자를 1명 이상 입력해 주세요."):
-            draw_winners("  \n\n ", 1, seed=42)
+class MovementTypeTests(unittest.TestCase):
+    def test_ac04_uses_standard_types_for_general_wbs(self):
+        self.assertEqual(("221", "222"), engine.movement_types("IM24-001"))
 
-    def test_ac05_rejects_winner_count_below_one(self):
-        with self.assertRaisesRegex(LotteryError, "당첨자 수는 1명 이상이어야 합니다."):
-            draw_winners("김한화\n이태양", 0, seed=42)
+    def test_ac04_uses_presales_types_for_r2_00(self):
+        self.assertEqual(("M75", "M76"), engine.movement_types("r2-00-100"))
 
-    def test_ac06_rejects_too_many_winners(self):
-        with self.assertRaisesRegex(
-            LotteryError,
-            "당첨자 수는 참여자 수보다 많을 수 없습니다.",
-        ):
-            draw_winners("김한화\n이태양\n김한화", 3, seed=42)
+    def test_ac04_uses_warranty_types_for_r2_01(self):
+        self.assertEqual(("M77", "M78"), engine.movement_types("R2-01-200"))
 
-    def test_ac07_returns_unique_valid_winners(self):
-        participants = {"김한화", "이태양", "박도전", "최미래"}
-        result = draw_winners("\n".join(participants), 3, seed=7)
 
-        self.assertEqual(3, len(result["winners"]))
-        self.assertEqual(3, len(set(result["winners"])))
-        self.assertTrue(set(result["winners"]).issubset(participants))
+class StockRuleTests(unittest.TestCase):
+    def test_ac05_rejects_quantity_over_available_stock(self):
+        with self.assertRaisesRegex(engine.IpsError, "현재 재고: 8, 요청 수량: 9"):
+            engine.validate_available_stock(8, 9)
 
-    def test_ac08_same_seed_reproduces_winners(self):
-        raw_text = "김한화\n이태양\n박도전\n최미래"
-
-        first = draw_winners(raw_text, 2, seed=42)
-        second = draw_winners(raw_text, 2, seed=42)
-
-        self.assertEqual(first["winners"], second["winners"])
-
-    def test_ac10_rejects_more_than_1000_people(self):
-        raw_text = "\n".join(f"참여자-{index}" for index in range(1_001))
-
-        with self.assertRaisesRegex(LotteryError, "참여자는 1,000명 이하로 입력해 주세요."):
-            draw_winners(raw_text, 1, seed=42)
+    def test_ac06_rejects_already_canceled_shipment(self):
+        with self.assertRaisesRegex(engine.IpsError, "이미 취소된 출고"):
+            engine.validate_cancel_status(engine.STATUS_CANCELED)
 
 
 if __name__ == "__main__":
