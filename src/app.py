@@ -70,6 +70,16 @@ def api_reset_demo():
     return service.reset_demo()
 
 
+@app.get("/styles.css", include_in_schema=False)
+def styles():
+    return FileResponse(BASE_DIR / "styles.css", media_type="text/css")
+
+
+@app.get("/app.js", include_in_schema=False)
+def frontend_script():
+    return FileResponse(BASE_DIR / "app.js", media_type="text/javascript")
+
+
 @app.get("/")
 def index():
     return FileResponse(BASE_DIR / "index.html")

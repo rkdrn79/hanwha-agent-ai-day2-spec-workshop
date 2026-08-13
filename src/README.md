@@ -1,12 +1,21 @@
-# 제공된 애플리케이션 뼈대
+# 제공된 애플리케이션 뿈대
 
-이 폴더에는 IPS WBS 출고·취소 MVP의 화면, API, 데모 데이터와 메모리 저장소가 있습니다.
+## 제공·읽기 전용 후보
 
-- `app.py`: FastAPI 경로와 화면 연결
+- `app.py`: API 경로·요청 모델·정적 파일 연결
 - `data.py`: 데모 재고 3건
-- `store.py`: 메모리 기반 재고·출고 저장소
-- `index.html`: 재고 조회·출고·취소 단일 화면
-- `engine.py`: 수강생 구현 대상인 순수 업무 규칙
-- `service.py`: 수강생 구현 대상인 출고·취소 흐름
+- `store.py`: 메모리 재고·출고 저장소
+- `requirements.txt`: 실행 의존성
 
-구현 전에 수강생이 직접 승인한 `docs/SPEC.md`, `docs/ARCHITECTURE.md`, ADR과 RFC를 기준으로 사용합니다.
+## Frontend Worktree
+
+- `index.html`: 화면 구조
+- `styles.css`: 상태·반응형·시각 표현
+- `app.js`: API 연동·상태·사용자 작업
+
+## Backend Worktree
+
+- `engine.py`: 순수 업무 규칙
+- `service.py`: 저장소와 규칙을 조정하는 유스케이스
+
+정확한 쓰기 범위는 수강생이 작성·승인한 `docs/ARCHITECTURE.md`와 `docs/rfc/RFC-001.md`를 따릅니다.
