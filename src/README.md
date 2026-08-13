@@ -1,33 +1,12 @@
-# IPS WBS 출고·취소 MVP
+# 제공된 애플리케이션 뼈대
 
-제공된 구매시스템(IPS) 입출고 기능개선 자료의 핵심 흐름을 2시간 교육용으로 축소한 로컬 웹 앱입니다.
+이 폴더에는 IPS WBS 출고·취소 MVP의 화면, API, 데모 데이터와 메모리 저장소가 있습니다.
 
-## 구현 범위
+- `app.py`: FastAPI 경로와 화면 연결
+- `data.py`: 데모 재고 3건
+- `store.py`: 메모리 기반 재고·출고 저장소
+- `index.html`: 재고 조회·출고·취소 단일 화면
+- `engine.py`: 수강생 구현 대상인 순수 업무 규칙
+- `service.py`: 수강생 구현 대상인 출고·취소 흐름
 
-- WBS별 재고 조회
-- 출고 즉시 처리와 재고 차감
-- WBS 접두사별 이동유형 결정
-- 출고 완료 건 전체 취소와 재고 원복
-- 재고 부족, 중복 요청, 중복 취소 차단
-- 메모리 기반 출고 이력
-
-실제 SAP BAPI, 전자결재, 메일, 자동 동기화, 인증, 데이터베이스는 제외합니다.
-
-## 실행
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install -r src/requirements.txt
-python src/app.py
-```
-
-브라우저에서 `http://127.0.0.1:8000`을 엽니다.
-
-## 테스트
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-업무 규칙의 기준은 `docs/IPS MVP 구현스펙.md`입니다.
+구현 전에 수강생이 직접 승인한 `docs/SPEC.md`, `docs/ARCHITECTURE.md`, ADR과 RFC를 기준으로 사용합니다.

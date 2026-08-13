@@ -17,42 +17,11 @@ def create_shipment(
     quantity: int,
     user_id: str,
 ) -> dict:
-    payload = engine.validate_outbound_input(
-        request_id,
-        material_code,
-        plant,
-        storage_location,
-        wbs,
-        quantity,
-        user_id,
-    )
-    if store.has_request_id(payload["request_id"]):
-        raise engine.IpsError("이미 처리된 출고 요청 번호입니다.")
-
-    try:
-        inventory = store.get_inventory(
-            payload["material_code"],
-            payload["plant"],
-            payload["storage_location"],
-            payload["wbs"],
-        )
-    except store.InventoryNotFoundError as error:
-        raise engine.IpsError("일치하는 재고를 찾을 수 없습니다.") from error
-
-    engine.validate_available_stock(inventory["quantity"], payload["quantity"])
-    movement_type, _ = engine.movement_types(payload["wbs"])
-    return store.complete_shipment(payload, movement_type)
+    raise NotImplementedError("TODO: 승인된 SPEC과 Architecture를 기준으로 구현하세요.")
 
 
 def cancel_shipment(shipment_id: int, user_id: str) -> dict:
-    normalized_user = (user_id or "").strip()
-    if not normalized_user:
-        raise engine.IpsError("처리자: 필수 입력값입니다.")
-
-    shipment = _get_shipment(shipment_id)
-    engine.validate_cancel_status(shipment["status"])
-    _, cancel_movement_type = engine.movement_types(shipment["wbs"])
-    return store.cancel_shipment(shipment_id, cancel_movement_type, normalized_user)
+    raise NotImplementedError("TODO: 승인된 SPEC과 Architecture를 기준으로 구현하세요.")
 
 
 def list_shipments() -> list[dict]:
