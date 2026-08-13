@@ -30,7 +30,7 @@ WBS 재고 조회 → 출고·재고 차감 → 완료 출고 전체 취소·재
 ## 시작 상태
 
 ```text
-JB/
+hanwha-agent-ai-day2-spec-workshop/
 ├── README.md
 ├── CHANGELOG.md                  # 실습 마지막에 작성
 ├── requirements/
