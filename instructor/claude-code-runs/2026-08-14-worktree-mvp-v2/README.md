@@ -19,6 +19,8 @@ Claude Code `2.1.229`로 student starter에서 문서 기준선과 IPS MVP를 �
 
 Claude의 비대화형 세션에서는 공유 `.venv`의 Python 실행이 승인을 요구했습니다. 두 구현 Claude는 RFC 중단 조건에 따라 테스트 미실행 상태에서 commit하지 않았고, Root Orchestrator가 같은 명령을 직접 실행해 통과를 확인한 뒤 해당 파일만 commit했습니다.
 
+원문 프롬프트는 실제 실행 증거이므로 사후 수정하지 않습니다. 현재 교육 운영 원칙은 각 LOOP의 검증 직후 CHANGELOG와 LOOP commit을 남기고, 실습 마지막에는 누락과 버전 표기만 정리하는 것입니다.
+
 ## 최종 증거
 
 - 전체 자동 테스트: `23/23` 통과

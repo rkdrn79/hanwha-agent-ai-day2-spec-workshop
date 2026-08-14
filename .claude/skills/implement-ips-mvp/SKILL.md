@@ -29,5 +29,6 @@ description: 승인된 SPEC·Architecture·ADR·RFC를 따라 IPS WBS 출고·�
 
 ## 4. 기록
 
-- 게이트를 모두 통과한 LOOP만 `CHANGELOG.md`에 기록한다(검증된 제품 변화만, 실패한 시도 제외).
+- 현재 LOOP의 게이트가 모두 통과하면 즉시 `CHANGELOG.md`에 기록하고 같은 LOOP 단위로 commit한 뒤 다음 LOOP로 이동한다(검증된 제품 변화만, 실패한 시도 제외).
+- 실습 마지막에는 CHANGELOG 누락과 버전 표기만 정리한다.
 - SPEC·Architecture는 수정하지 않는다. 가정이 틀렸다면 보고만 하고 개정은 사람 승인을 기다린다.

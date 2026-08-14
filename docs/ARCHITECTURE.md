@@ -107,10 +107,11 @@ Root Orchestrator (원격 push·CHANGELOG·문서 승인 담당)
 
 ## 5. 통합 순서
 
-1. **Backend 선행**: Domain Agent가 `engine.py` 규칙을 완성 → `test_engine.py` 통과 → Service Agent가 `service.py` 유스케이스를 완성 → `test_service.py`·`test_api.py` 통과. Backend Worktree에서 로컬 commit.
-2. **Frontend 병행**: UI Agent가 스타일·상태 클래스를 완성하고 Interaction Agent가 `app.js`를 API 계약(2장)에 맞춰 완성 → `test_frontend.py` 통과. Backend 완성 전에는 실서버 대신 계약 문서를 기준으로 작업한다. Frontend Worktree에서 로컬 commit.
-3. **통합**: Root Orchestrator가 두 Worktree를 본 브랜치로 통합 → 전체 회귀(`python -m unittest discover -s tests -v`) → `python src/app.py` 실행 후 브라우저 스모크(SPEC 7장) → RFC 게이트(읽기 전용 파일 diff 없음) 확인.
-4. **기록**: 검증을 통과한 변화만 `CHANGELOG.md`에 LOOP 단위로 기록하고, Root Orchestrator만 원격 push를 수행한다(이번 실습에서는 사람 승인 후).
+1. **LOOP 시작**: Root Orchestrator가 현재 `LOOP-*.md`와 승인 계약을 읽고 Frontend·Backend의 영향 파일을 배타 할당한다.
+2. **Worktree 구현**: Domain·Service Agent와 UI·Interaction Agent가 각 소유 파일을 병행 구현하고, 담당 범위의 대상 테스트를 통과시킨다. Backend 완성 전 Frontend는 실서버 대신 2장의 API 계약을 기준으로 작업한다.
+3. **LOOP 통합·검증**: Root Orchestrator가 현재 LOOP의 Worktree 변경을 통합 → 대상 테스트와 전체 회귀 → 필요 시 브라우저 장면 → RFC 권한 감사를 순서대로 수행한다.
+4. **LOOP 종료**: 검증을 통과한 즉시 Root Orchestrator가 `CHANGELOG.md`에 제품 변화를 기록하고 같은 LOOP 단위로 commit한다. 실패 상태에서는 기록·commit하지 않고, 이 과정을 마친 뒤에만 다음 LOOP로 이동한다.
+5. **최종 정리**: LOOP-04까지 끝난 뒤 CHANGELOG 누락과 버전 표기만 확인하고, 사람 승인 후 Root Orchestrator만 원격 push한다.
 
 ## 6. 알려진 통합 위험
 
