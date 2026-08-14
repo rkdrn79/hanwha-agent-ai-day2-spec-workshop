@@ -72,6 +72,26 @@ py -m venv .venv
 python -m pip install -r src/requirements.txt
 ```
 
+## Claude Code 프롬프트 예시
+
+PPT에서 사용하는 전체 예시를 실행 순서대로 제공합니다.
+
+```text
+prompts/
+├─ 01-SPEC.md
+├─ 02-ARCHITECTURE.md
+├─ 03-ADR.md
+├─ 04-RFC.md
+├─ 05-PROJECT-SKILL.md
+├─ 06-FRONTEND-WORKTREE.md
+├─ 07-BACKEND-WORKTREE.md
+└─ 08-INTEGRATION-REVIEW.md
+```
+
+`01`부터 `05`까지는 Main 세션에서 한 번에 하나씩 실행하고 사람이 결과를 승인합니다. 기준선 commit 후 `06`과 `07`을 서로 다른 Worktree 세션에서 실행하며, 통합 뒤 `08`을 Main 세션에서 실행합니다.
+
+프롬프트는 수강생이 직접 설계하되, 막히면 예시를 참고할 수 있습니다. 예시를 그대로 보내기 전에 현재 단계, 승인된 문서와 작업 범위를 확인합니다.
+
 ## Claude Code 사용 순서
 
 ### 1. 아직 구현하지 말고 질문하기
@@ -81,8 +101,6 @@ Claude Code에 포함할 내용:
 - `docs/요청사항/` 전체와 현재 코드·테스트 조사
 - 모호함, 충돌, 누락된 업무 결정만 질문으로 정리
 - 파일 생성과 코드 수정은 아직 금지
-
-정확한 프롬프트 문장은 제공하지 않습니다. 위 조건을 반영한 프롬프트를 직접 작성합니다.
 
 ### 2. 원천 문서 승인하기
 
