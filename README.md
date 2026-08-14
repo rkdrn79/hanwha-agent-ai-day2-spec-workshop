@@ -74,19 +74,20 @@ python -m pip install -r src/requirements.txt
 
 ## Claude Code 프롬프트 예시
 
-PPT에서 사용하는 전체 예시를 실행 순서대로 제공합니다.
+PPT에서 사용하는 전체 프롬프트를 아래 링크에서 바로 열어 복사할 수 있습니다.
 
-```text
-prompts/
-├─ 01-SPEC.md
-├─ 02-ARCHITECTURE.md
-├─ 03-ADR.md
-├─ 04-RFC.md
-├─ 05-PROJECT-SKILL.md
-├─ 06-FRONTEND-WORKTREE.md
-├─ 07-BACKEND-WORKTREE.md
-└─ 08-INTEGRATION-REVIEW.md
-```
+| 순서 | 프롬프트 | 실행 위치와 목적 |
+|---|---|---|
+| 01 | [SPEC 작성](prompts/01-SPEC.md) | Main · 질문과 사람의 답변을 제품 계약과 AC로 정리 |
+| 02 | [Architecture 작성](prompts/02-ARCHITECTURE.md) | Main · 계층, API 계약, 파일 소유권과 통합 Gate 고정 |
+| 03 | [ADR 작성](prompts/03-ADR.md) | Main · 중요한 설계 결정과 선택 이유 기록 |
+| 04 | [RFC 작성](prompts/04-RFC.md) | Main · AI 허용·금지·중단 조건과 검증 범위 규제 |
+| 05 | [Project Skill 작성](prompts/05-PROJECT-SKILL.md) | Main · 승인 문서를 실행 행동으로 연결하는 짧은 Skill 작성 |
+| 06 | [Frontend Worktree 구현](prompts/06-FRONTEND-WORKTREE.md) | Front 세션 · UI·Interaction Writer와 읽기 전용 Verifier 실행 |
+| 07 | [Backend Worktree 구현](prompts/07-BACKEND-WORKTREE.md) | Back 세션 · Domain·Service Writer와 읽기 전용 Verifier 실행 |
+| 08 | [통합 검토](prompts/08-INTEGRATION-REVIEW.md) | Main · Contract·UX 감사와 필요한 최소 수정 판정 |
+
+프롬프트의 설명과 전체 실행 순서는 [`prompts/README.md`](prompts/README.md)에서도 확인할 수 있습니다.
 
 `01`부터 `05`까지는 Main 세션에서 한 번에 하나씩 실행하고 사람이 결과를 승인합니다. 기준선 commit 후 `06`과 `07`을 서로 다른 Worktree 세션에서 실행하며, 통합 뒤 `08`을 Main 세션에서 실행합니다.
 
