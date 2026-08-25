@@ -1,0 +1,39 @@
+evidence_id,source_file,locator,raw_text,classification,normalized_claim,requirement_id,notes
+EV-001,roomflow_screen_definition.pptx,PPT:S2,"예약 조회·등록·내 예약 상세·승인함 네 화면",confirmed,"MVP의 핵심 화면은 네 개다",,"화면 ID는 PPT와 Excel 연결 키"
+EV-002,roomflow_screen_definition.pptx,PPT:S2,"반복 예약·출입 QR·외부 캘린더 연동 제외",out-of-scope,"세 기능은 MVP 범위 밖이다",,
+EV-003,roomflow_screen_definition.pptx,PPT:S3,"최초 진입 시 오늘부터 7일간 조회",conflict,"최초 조회 기간은 7일로 제안되어 있다",OPEN-001,"Excel 30일과 충돌"
+EV-004,roomflow_screen_definition.pptx,PPT:S3,"기간·건물·상태를 조합해 조회",confirmed,"유효한 기간과 건물·상태로 예약을 조회한다",FR-001,
+EV-005,roomflow_screen_definition.pptx,PPT:S3,"본인 예약은 모두 보이고 타인 예약 제목은 숨김",confirmed,"목록에서 타인 예약 제목을 보호한다",FR-002,
+EV-006,roomflow_screen_definition.pptx,PPT:S3,"사용자가 기다리지 않게 빠르게",ambiguous,"조회 응답 목표가 측정 가능하지 않다",OPEN-004,
+EV-007,roomflow_screen_definition.pptx,PPT:S4,"회의실·예약일·시작·종료·인원·목적 입력",confirmed,"예약 폼에 주요 입력 항목이 있다",FR-003,"목적 필수 여부는 별도 충돌"
+EV-008,roomflow_screen_definition.pptx,PPT:S4,"종료는 시작보다 늦고 시간은 30분 단위",confirmed,"시간 순서와 단위를 검증한다",FR-004,
+EV-009,roomflow_screen_definition.pptx,PPT:S4,"참석 인원은 1명 이상 정원 이하",confirmed,"참석 인원을 회의실 정원과 검증한다",FR-005,
+EV-010,roomflow_screen_definition.pptx,PPT:S4,"겹치는 예약이 있으면 저장하지 않고 안내",confirmed,"같은 회의실·시간 중복 시 예약을 생성하지 않는다",FR-006,
+EV-011,roomflow_screen_definition.pptx,PPT:S4:NOTES,"임시저장 후 DRAFT 예약 요청 후 REQUESTED",confirmed,"임시저장과 요청의 상태를 구분한다",FR-007,
+EV-012,roomflow_screen_definition.pptx,PPT:S4,"예약 목적 필수 표시",conflict,"예약 목적이 필수로 표시되어 있다",OPEN-003,"Excel 필수 N과 충돌"
+EV-013,roomflow_screen_definition.pptx,PPT:S5,"본인 예약 상태와 처리 이력 조회",confirmed,"신청자는 본인 예약의 상세와 이력을 본다",FR-012,
+EV-014,roomflow_screen_definition.pptx,PPT:S5,"APPROVED 예약은 시작 2시간 전까지 취소 가능 제안",conflict,"취소 허용 시점은 시작 2시간 전으로 제안됐다",OPEN-002,"Excel 4시간과 충돌"
+EV-015,roomflow_screen_definition.pptx,PPT:S5,"취소 완료 시 CANCELED",confirmed,"취소가 완료되면 상태를 CANCELED로 변경한다",FR-013,
+EV-016,roomflow_screen_definition.pptx,PPT:S5,"취소 알림 채널은 이메일 또는 앱 알림 중 미정",candidate,"취소 알림 채널 후보가 둘 있다",OPEN-005,
+EV-017,roomflow_screen_definition.pptx,PPT:S6,"REQUESTED만 승인함에 표시",confirmed,"승인함은 미처리 요청만 보여준다",FR-008,
+EV-018,roomflow_screen_definition.pptx,PPT:S6,"승인 시 APPROVED와 처리자 기록",confirmed,"승인은 상태와 처리 기록을 갱신한다",FR-009,
+EV-019,roomflow_screen_definition.pptx,PPT:S6,"반려 시 사유 필수",confirmed,"반려에는 사유가 필요하다",FR-010,
+EV-020,roomflow_screen_definition.pptx,PPT:S6,"이미 처리된 요청 재처리 금지",confirmed,"완료된 예약을 다시 승인·반려할 수 없다",FR-011,
+EV-021,roomflow_screen_definition.pptx,PPT:S6,"관리자 대리 승인 검토 중",candidate,"관리자 대리 승인은 확정되지 않았다",OPEN-006,
+EV-022,roomflow_screen_definition.pptx,PPT:S7,"Loading·Empty·Validation·Error와 입력값 유지",confirmed,"화면 상태를 구분하고 오류 시 입력값을 유지한다",FR-014,
+EV-023,roomflow_screen_definition.pptx,PPT:S8,"반복 예약·출입 QR은 MVP 제외",out-of-scope,"반복 예약과 출입 QR은 범위 밖이다",,
+EV-024,roomflow_function_definition.xlsx,XLSX:화면목록!A5:H5,"최초 조회 범위 오늘부터 30일",conflict,"최초 조회 기간은 30일로 적혀 있다",OPEN-001,"PPT 7일과 충돌"
+EV-025,roomflow_function_definition.xlsx,XLSX:화면항목정의!A8:I13,"회의실·예약일·시간·인원·제목 필수와 검증 규칙",confirmed,"예약 필수 입력과 검증 규칙이 정의되어 있다",FR-003,
+EV-026,roomflow_function_definition.xlsx,XLSX:화면항목정의!A14:I14,"예약 목적 필수 N 검토중",conflict,"예약 목적은 선택 항목으로 검토 중이다",OPEN-003,"PPT 필수 표시와 충돌"
+EV-027,roomflow_function_definition.xlsx,XLSX:화면항목정의!A15:I15,"반려 사유는 반려 시 필수",confirmed,"반려 시 사유가 조건부 필수다",FR-010,
+EV-028,roomflow_function_definition.xlsx,XLSX:버튼이벤트!A6:J6,"임시저장 시 DRAFT 저장 입력값 유지",confirmed,"임시저장 성공·실패 결과가 정의되어 있다",FR-007,
+EV-029,roomflow_function_definition.xlsx,XLSX:버튼이벤트!A7:J7,"중복 확인 후 REQUESTED 저장 실패 시 미생성",confirmed,"예약 요청은 검증 후 REQUESTED가 된다",FR-008,
+EV-030,roomflow_function_definition.xlsx,XLSX:버튼이벤트!A8:J8,"APPROVED이며 시작 4시간 전까지 취소 검토중",conflict,"취소 허용 시점은 시작 4시간 전으로 검토 중이다",OPEN-002,"PPT 2시간과 충돌"
+EV-031,roomflow_function_definition.xlsx,XLSX:버튼이벤트!A9:J9,"승인 시 APPROVED 처리자·처리시각 기록",confirmed,"승인 처리 결과와 실패 시 무변경이 정의되어 있다",FR-009,
+EV-032,roomflow_function_definition.xlsx,XLSX:버튼이벤트!A10:J10,"반려 시 REJECTED 사유·처리자 기록",confirmed,"반려 처리 결과와 실패 시 상태 유지가 정의되어 있다",FR-010,
+EV-033,roomflow_function_definition.xlsx,XLSX:버튼이벤트!A13:J13,"관리자 대리 승인 Could 검토중",candidate,"대리 승인 기능은 정책 결정이 필요하다",OPEN-006,
+EV-034,roomflow_function_definition.xlsx,XLSX:상태전이!A5:H11,"DRAFT·REQUESTED·APPROVED·REJECTED·CANCELED 전이",confirmed,"허용 상태 전이와 실패 시 기존 상태가 정의되어 있다",FR-011,
+EV-035,roomflow_function_definition.xlsx,XLSX:메시지·권한!A5:H9,"시간·정원·중복·이미 처리·서버 오류 메시지",confirmed,"오류 코드와 입력값 또는 상태 보존 결과가 정의되어 있다",FR-014,
+EV-036,roomflow_function_definition.xlsx,XLSX:메시지·권한!A10:H12,"임직원·신청자·승인자 권한",confirmed,"화면별 사용자 권한과 타인 접근 거절이 정의되어 있다",FR-012,
+EV-037,roomflow_function_definition.xlsx,XLSX:메시지·권한!A13:H13,"관리자 대리 승인 여부 검토",candidate,"관리자 권한 확장은 미결정이다",OPEN-006,
+EV-038,roomflow_function_definition.xlsx,XLSX:검토메모!A5:G10,"충돌·모호함·후보·범위 밖 목록",confirmed,"확정이 아닌 증거를 OPEN 질문과 범위 밖으로 분리한다",,

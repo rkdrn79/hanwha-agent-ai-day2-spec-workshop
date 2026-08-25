@@ -1,0 +1,22 @@
+requirement_id,requirement_type,summary,source,status,verification,notes
+FR-001,FR,기간·건물·상태 예약 조회,PPT:S3; XLSX:화면목록!A5:H5; XLSX:버튼이벤트!A5:J5,confirmed,조회 조건 조합 테스트,최초 기간은 OPEN-001
+FR-002,FR,타인 제목 숨김과 본인 상세 이동,PPT:S3; XLSX:메시지·권한!A10:H11,confirmed,권한별 목록·상세 테스트,
+FR-003,FR,예약 입력 필드,PPT:S4; XLSX:화면항목정의!A8:I14,confirmed,필수 필드 검증,예약 목적은 OPEN-003
+FR-004,FR,종료 시각과 30분 단위 검증,PPT:S4; XLSX:화면항목정의!A10:I11; XLSX:메시지·권한!A5:H5,confirmed,AC-002,
+FR-005,FR,참석 인원 정원 검증,PPT:S4; XLSX:화면항목정의!A12:I12; XLSX:메시지·권한!A6:H6,confirmed,AC-003,
+FR-006,FR,같은 회의실·시간 중복 방지,PPT:S4; XLSX:버튼이벤트!A7:J7; XLSX:메시지·권한!A7:H7,confirmed,AC-004,
+FR-007,FR,DRAFT 임시저장,PPT:S4:NOTES; XLSX:버튼이벤트!A6:J6; XLSX:상태전이!A5:H5,confirmed,임시저장 성공·실패 테스트,
+FR-008,FR,REQUESTED 예약 요청,PPT:S4:NOTES; XLSX:버튼이벤트!A7:J7; XLSX:상태전이!A6:H7,confirmed,AC-001,
+FR-009,FR,REQUESTED 승인 처리,PPT:S6; XLSX:버튼이벤트!A9:J9; XLSX:상태전이!A8:H8,confirmed,AC-005,
+FR-010,FR,반려 사유 필수와 REJECTED 처리,PPT:S6; XLSX:화면항목정의!A15:I15; XLSX:버튼이벤트!A10:J10; XLSX:상태전이!A9:H9,confirmed,AC-006,
+FR-011,FR,완료 요청 재처리 방지,PPT:S6; XLSX:상태전이!A11:H11; XLSX:메시지·권한!A8:H8,confirmed,AC-007,
+FR-012,FR,본인 예약 상세와 타인 접근 거절,PPT:S5; XLSX:버튼이벤트!A12:J12; XLSX:메시지·권한!A11:H11,confirmed,신청자·타인 권한 테스트,
+FR-013,FR,APPROVED 예약 취소 후 CANCELED,PPT:S5; XLSX:상태전이!A10:H10,confirmed,OPEN-002 결정 후 취소 시나리오,정확한 허용 시점은 미결정
+FR-014,FR,화면 상태 메시지와 입력값 보존,PPT:S7; XLSX:메시지·권한!A5:H9,confirmed,Loading·Empty·Validation·Error UI 테스트,
+AC-001,AC,정상 예약 요청,PPT:S4:NOTES; XLSX:버튼이벤트!A7:J7; XLSX:상태전이!A6:H7,confirmed,Given/When/Then 자동화,
+AC-002,AC,잘못된 시간 거절,PPT:S4; XLSX:화면항목정의!A10:I11; XLSX:메시지·권한!A5:H5,confirmed,Given/When/Then 자동화,
+AC-003,AC,정원 초과 거절,PPT:S4; XLSX:화면항목정의!A12:I12; XLSX:메시지·권한!A6:H6,confirmed,Given/When/Then 자동화,
+AC-004,AC,중복 예약 미생성,PPT:S4; XLSX:버튼이벤트!A7:J7; XLSX:메시지·권한!A7:H7,confirmed,Given/When/Then 자동화,
+AC-005,AC,예약 승인 성공,PPT:S6; XLSX:버튼이벤트!A9:J9; XLSX:상태전이!A8:H8,confirmed,Given/When/Then 자동화,
+AC-006,AC,반려 사유 누락 거절,PPT:S6; XLSX:화면항목정의!A15:I15; XLSX:버튼이벤트!A10:J10,confirmed,Given/When/Then 자동화,
+AC-007,AC,완료 요청 재처리 거절,PPT:S6; XLSX:상태전이!A11:H11; XLSX:메시지·권한!A8:H8,confirmed,Given/When/Then 자동화,

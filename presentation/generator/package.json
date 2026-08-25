@@ -1,0 +1,12 @@
+{
+  "name": "ips-wbs-solution-ppt",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Rebuild the editable IPS WBS solution brief PowerPoint",
+  "scripts": {
+    "build": "node build_solution_ppt.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "title": "IPS WBS 출고·취소 MVP",
+  "subtitle": "Solution → 발표자료",
+  "audience": "프로젝트·업무 리더와 개발 실습 참여자",
+  "visual_system": "원본 2일차 강연: 주황 상단 바, 흰 본문, 짙은 코드 패널, 파란 근거 도형",
+  "slides": [
+    {
+      "id": "s1",
+      "kind": "cover",
+      "eyebrow": "AUG. 2026  ·  AGENT AI",
+      "title": "IPS WBS 출고·취소 MVP",
+      "subtitle": "완성된 solution을 근거 기반 발표자료로 바꾸기",
+      "flow": ["100", "88", "100"],
+      "flow_labels": ["초기 재고", "12 출고", "전체 취소"],
+      "source": "SPEC §7 · AC-08 · AC-11",
+      "notes": "결론부터 보여줍니다. 초기 재고 100에서 12개를 출고하면 88, 완료 건을 전체 취소하면 다시 100입니다. 이 숫자는 홍보 문구가 아니라 SPEC과 인수 테스트가 고정한 데모 흐름입니다. 다음 장에서는 이 MVP가 무엇을 보호하려는지 설명합니다."
+    },
+    {
+      "id": "s2",
+      "kind": "problem",
+      "section": "01 | 문제와 결정",
+      "title": "속도가 아니라, 실패 후 재고가 그대로인가가 핵심입니다",
+      "left_title": "분리된 확인",
+      "left_steps": ["입력 확인", "재고 차감", "중복 확인"],
+      "left_risks": ["중복 차감", "이력 불일치"],
+      "right_title": "검증 후 1회 변경",
+      "right_steps": ["필수값", "중복", "재고", "상태", "저장"],
+      "takeaway": "검증이 모두 끝나기 전에는 저장소를 바꾸지 않습니다.",
+      "source": "SPEC §4–5 · ADR-001 · AC-09/10/12",
+      "notes": "문제는 화면이 느린 것이 아니라 실패 중 일부만 반영되는 것입니다. 입력·중복·재고·상태를 모두 확인한 뒤 저장소를 마지막에 한 번 호출하면 재고와 이력을 같이 보호할 수 있습니다. 다음 장에서 정상 흐름과 상태 전이를 한 번에 보겠습니다."
+    },
+    {
+      "id": "s3",
+      "kind": "state_flow",
+      "section": "02 | 업무 흐름",
+      "title": "조회 → 출고 → 전체 취소가 두 상태로 닫힙니다",
+      "inventory": ["100", "88", "100"],
+      "actions": ["IM24-001 조회", "12 출고", "전체 취소"],
+      "statuses": ["COMPLETED", "CANCELED"],
+      "failure": "실패 요청 → 레코드 없음 · 재고 불변",
+      "source": "SPEC §3–5 · AC-08/11/12",
+      "notes": "출고 레코드는 검증을 통과한 뒤에만 생깁니다. 성공한 출고는 COMPLETED, 전체 취소 후에는 CANCELED이며 중간 상태나 부분 취소는 없습니다. 실패는 상태가 아니라 생성 없음입니다. 다음 장에서는 이 원칙을 네 개의 실패 조건으로 확인합니다."
+    },
+    {
+      "id": "s4",
+      "kind": "invariants",
+      "section": "03 | 안전 조건",
+      "title": "정상 흐름보다 네 불변조건을 먼저 지켰습니다",
+      "headers": ["요청", "거부 조건", "실패 후 결과", "판정"],
+      "rows": [
+        ["0 · 음수", "수량은 1 이상", "재고·이력 불변", "AC-03"],
+        ["재고 8 / 요청 9", "가용 재고 초과", "재고 8 유지", "AC-05·09"],
+        ["같은 request_id", "성공 번호 재사용", "차감 1회", "AC-10"],
+        ["CANCELED 재취소", "종결 상태", "재고 불변", "AC-06·12"]
+      ],
+      "takeaway": "실패한 request_id는 등록되지 않아 정정 후 다시 사용할 수 있습니다.",
+      "source": "SPEC §4–5 · tests/test_engine.py · tests/test_service.py",
+      "notes": "정상 경로보다 실패 후 불변조건이 더 중요합니다. 0이나 음수, 재고 부족, 중복 번호, 재취소는 모두 저장소 변경 전에 막습니다. 특히 실패한 request_id는 사용 처리하지 않기 때문에 정정 후 재사용할 수 있습니다. 다음 장은 WBS 유형이 결정하는 코드 쌍입니다."
+    },
+    {
+      "id": "s5",
+      "kind": "movement_types",
+      "section": "04 | 업무 규칙",
+      "title": "업무 유형이 출고·취소 코드를 한 쌍으로 결정합니다",
+      "rows": [
+        {"type": "일반 프로젝트", "rule": "그 외 WBS", "ship": "221", "cancel": "222"},
+        {"type": "가수주", "rule": "R2-00*", "ship": "M75", "cancel": "M76"},
+        {"type": "하자보수", "rule": "R2-01*", "ship": "M77", "cancel": "M78"}
+      ],
+      "takeaway": "취소 코드는 반드시 같은 행의 출고 코드와 함께 사용합니다.",
+      "source": "SPEC §2·§8 · AC-04/13",
+      "notes": "이동유형은 임의 코드가 아니라 업무 유형별 출고·취소 쌍입니다. R2-00은 가수주, R2-01은 하자보수, 나머지는 일반 프로젝트로 판정합니다. 취소할 때 다른 유형의 코드를 섞으면 업무 규칙 위반입니다. 다음 장에서 이 규칙을 구현한 경계를 보겠습니다."
+    },
+    {
+      "id": "s6",
+      "kind": "architecture",
+      "section": "05 | 구현 경계",
+      "title": "계약과 파일 소유권으로 Frontend·Backend를 병렬화했습니다",
+      "layers": [
+        {"name": "Frontend", "files": "index.html · styles.css · app.js", "owner": "Frontend Worktree"},
+        {"name": "API", "files": "app.py", "owner": "제공 · 읽기 전용"},
+        {"name": "Service", "files": "service.py", "owner": "Service Agent"},
+        {"name": "Rules / Store", "files": "engine.py · store.py", "owner": "Domain / 제공"}
+      ],
+      "rules": ["API 계약만 공유", "한 파일에 작성자 1명", "tests/** 읽기 전용"],
+      "source": "ARCHITECTURE §1·§4–5 · RFC-001",
+      "notes": "Frontend와 Backend는 서로의 구현을 기다리지 않고 API 계약을 공유해 진행했습니다. app.py와 store.py는 제공 파일로 읽기 전용, service.py와 engine.py는 담당 Agent가 나눠 가집니다. tests는 판정 기준이므로 수정하지 않습니다. 다음 장에서 이 구조가 통과한 검증 결과를 보겠습니다."
+    },
+    {
+      "id": "s7",
+      "kind": "validation",
+      "section": "06 | 검증과 완료",
+      "title": "23/23과 브라우저 스모크가 완료를 판정했습니다",
+      "hero": "23/23",
+      "automated": ["Domain 규칙", "Service 원자성", "API 계약", "Frontend DOM"],
+      "browser": ["100 → 88 → 100", "480px 단일 열", "콘솔 오류 0건", "초기화 복원"],
+      "takeaway": "23/23은 제품 효과가 아니라 자동 테스트 통과 결과입니다.",
+      "source": "SPEC §7 · CHANGELOG LOOP-04 · tests/test_*.py",
+      "notes": "자동 테스트 23개 전체 통과와 브라우저 스모크가 완료 기준입니다. 브라우저에서는 핵심 흐름, 480픽셀 레이아웃, 콘솔 오류 0건, 초기화 복원을 확인했습니다. 23/23은 절감률 같은 제품 효과가 아니라 검증 결과입니다. 마지막 장에서 다음 변경의 기준선을 정리합니다."
+    },
+    {
+      "id": "s8",
+      "kind": "close",
+      "section": "07 | 다음 변경",
+      "title": "다음 변경은 PPT가 아니라 SPEC과 tests에서 시작합니다",
+      "pipeline": ["SPEC", "ARCH", "TESTS", "PPT"],
+      "out_of_scope": ["실제 SAP", "로그인·권한", "부분 취소", "운영 DB"],
+      "closing": "발표자료는 계약의 복제본입니다.",
+      "source": "SPEC §1·§9 · RFC-001",
+      "notes": "발표자료는 제품 계약을 대신하지 않습니다. 범위나 가정이 바뀌면 사람 승인으로 SPEC을 개정하고 관련 tests를 조정한 뒤, 마지막에 PPT를 다시 생성합니다. 실제 SAP, 로그인과 권한, 부분 취소, 운영 DB는 현재 범위 밖입니다."
+    }
+  ]
+}

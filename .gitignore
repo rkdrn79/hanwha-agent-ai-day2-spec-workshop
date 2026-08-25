@@ -4,4 +4,13 @@ __pycache__/
 .venv/
 venv/
 .pytest_cache/
+node_modules/
+*.inspect.ndjson
 .claude/worktrees/
+presentation/output/*
+!presentation/output/.gitkeep
+!presentation/output/ips_wbs_solution_brief.pptx
+!presentation/output/qa_report.md
+!presentation/output/contact_sheet.png
+reverse-spec/output/*
+!reverse-spec/output/.gitkeep
