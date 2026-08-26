@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/styles.css">
+  <title>IPS WBS 출고·취소</title>
+</head>
+<body>
+  <header class="site-header">
+    <p class="eyebrow">HANWHA IPS 자재관리</p>
+    <h1>IPS WBS 출고·취소</h1>
+    <p>재고를 선택해 출고하고, 완료된 출고 건은 전체 취소로 재고를 원복합니다.</p>
+  </header>
+
+  <main>
+    <section class="workflow" aria-label="업무 흐름">
+      <span>01 재고 선택</span>
+      <span>02 출고·차감</span>
+      <span>03 전체 취소·원복</span>
+    </section>
+
+    <section class="panel" aria-labelledby="inventoryTitle">
+      <div class="panel-header">
+        <div>
+          <p class="section-label">INVENTORY</p>
+          <h2 id="inventoryTitle">재고 현황</h2>
+        </div>
+        <div class="toolbar">
+          <label for="wbsFilter">WBS 필터</label>
+          <input id="wbsFilter" name="wbsFilter" placeholder="예: IM24-001">
+          <button id="filterButton" type="button">조회</button>
+          <button id="resetButton" type="button">데모 초기화</button>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table aria-labelledby="inventoryTitle">
+          <caption class="visually-hidden">자재·플랜트·저장위치·WBS별 가용 재고 목록</caption>
+          <thead>
+            <tr><th scope="col">자재</th><th scope="col">플랜트</th><th scope="col">저장위치</th><th scope="col">WBS</th><th scope="col">가용 재고</th><th scope="col">선택</th></tr>
+          </thead>
+          <tbody id="inventoryBody">
+            <tr><td colspan="6" class="empty">재고를 불러오는 중입니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="outboundTitle">
+      <div class="panel-header">
+        <div>
+          <p class="section-label">OUTBOUND</p>
+          <h2 id="outboundTitle">출고 처리</h2>
+        </div>
+      </div>
+      <form id="shipmentForm">
+        <label for="requestId">출고 요청 번호<input id="requestId" name="requestId" required value="GI-001"></label>
+        <label for="userId">처리자<input id="userId" name="userId" required value="H0001"></label>
+        <label for="materialCode">자재코드<input id="materialCode" name="materialCode" required readonly></label>
+        <label for="plant">플랜트<input id="plant" name="plant" required readonly></label>
+        <label for="storageLocation">저장위치<input id="storageLocation" name="storageLocation" required readonly></label>
+        <label for="wbs">WBS<input id="wbs" name="wbs" required readonly></label>
+        <label for="quantity">출고 수량<input id="quantity" name="quantity" type="number" min="1" required value="1"></label>
+        <button id="submitButton" type="submit">출고 처리</button>
+      </form>
+      <p class="message message--info" id="message" role="status" aria-live="polite">재고 목록에서 출고할 항목을 선택해 주세요.</p>
+    </section>
+
+    <section class="panel" aria-labelledby="historyTitle">
+      <div class="panel-header">
+        <div>
+          <p class="section-label">HISTORY</p>
+          <h2 id="historyTitle">출고 이력</h2>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table aria-labelledby="historyTitle">
+          <caption class="visually-hidden">처리된 출고 건의 상태·수량·이동유형 이력</caption>
+          <thead>
+            <tr><th scope="col">ID</th><th scope="col">요청 번호</th><th scope="col">자재 / WBS</th><th scope="col">수량</th><th scope="col">이동유형</th><th scope="col">상태</th><th scope="col">작업</th></tr>
+          </thead>
+          <tbody id="shipmentBody">
+            <tr><td colspan="7" class="empty">표시할 출고 이력이 없습니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

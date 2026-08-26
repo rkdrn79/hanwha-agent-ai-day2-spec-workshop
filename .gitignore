@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.venv/
+venv/
+.pytest_cache/
+node_modules/
+*.inspect.ndjson
+.claude/worktrees/
+presentation/output/*
+!presentation/output/.gitkeep
+presentation/work/
+reverse-spec/output/*
+!reverse-spec/output/.gitkeep

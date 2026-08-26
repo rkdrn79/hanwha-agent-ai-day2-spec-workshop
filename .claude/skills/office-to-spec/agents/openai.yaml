@@ -1,0 +1,4 @@
+interface:
+  display_name: "Office to Spec"
+  short_description: "Office 근거를 추적 가능한 SPEC으로 변환"
+  default_prompt: "지정한 PowerPoint와 Excel 원본의 충돌과 모호함을 보존하면서 출처 추적 가능한 SPEC, 추적표, 미결정 질문을 만들어줘."
